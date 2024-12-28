@@ -349,11 +349,11 @@ void signal_handler(int sig) { (void)sig; g_server_->shutdown(); }
 
 int main(int argc, char * argv[])
 {
-  if (strcmp(rmw_get_implementation_identifier(), "rmw_fastrtps_cpp") == 0) {
-    std::cout << "\033[1;31mUse rmw_fastrtps_dynamic_cpp instead of "
-              << "rmw_fastrtps_cpp as RMW implementation.\033[0m" << std::endl;
-    return -1;
-  }
+  // if (strcmp(rmw_get_implementation_identifier(), "rmw_fastrtps_cpp") == 0) {
+  //   std::cout << "\033[1;31mUse rmw_fastrtps_dynamic_cpp instead of "
+  //             << "rmw_fastrtps_cpp as RMW implementation.\033[0m" << std::endl;
+  //   return -1;
+  // }
 
   signal(SIGINT, signal_handler);
   rclcpp::init(argc, argv);
