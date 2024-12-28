@@ -15,15 +15,13 @@
 
 #include <exception>
 
-#include "dds/ddsrt/endian.h"
-
 cycser::cycser(std::vector<unsigned char> & dst_) : dst(dst_), off(0)
 {
   dst.reserve(4);
 
   /* endianness: 0x0000 for BE, 0x0001 for LE */
   dst.push_back(0x00);
-  dst.push_back((DDSRT_ENDIAN == DDSRT_LITTLE_ENDIAN) ? 0x01 : 0x00);
+  dst.push_back(0x01); // Little Endian Only Support
 
   /* options: defaults to 0x0000 */
   dst.push_back(0);
@@ -33,11 +31,8 @@ cycser::cycser(std::vector<unsigned char> & dst_) : dst(dst_), off(0)
 cycdeserbase::cycdeserbase(const char * data_, size_t size_)
 : data(data_), pos(0), lim(size_), swap_bytes(false)
 {
-  /* Get the endianness byte (skip unused first byte in data[0]) */
-  uint32_t data_endianness = (data[1] == 0x01) ? DDSRT_LITTLE_ENDIAN : DDSRT_BIG_ENDIAN;
-
   /* If endianness of data differs from our endianness: swap bytes when deserializing */
-  swap_bytes = (DDSRT_ENDIAN != data_endianness);
+  swap_bytes = false; // Little Endian Only Support
 
   /* Ignore representation options (data_[2] and data_[3]) */
   data += 4;
